@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" type="text/css" href="@{/css/homePage-styles.css}">
+</head>
+<body>
+<div class="container">
+    <h1 th:text="#{app.name}">Medilabo</h1> <!-- Utilisation de l'expression Thymeleaf pour afficher le nom de l'application -->
+    <div class="content">
+        <h2>Bienvenue sur Medilabo</h2>
+        <p>CSS à venir</p>
+        <a th:href="@{/service-patient}">Service Patient</a> <!-- Lien vers la page du service patient -->
+    </div>
+</div>
+</body>
+</html>
