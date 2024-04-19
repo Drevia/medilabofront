@@ -1,7 +1,7 @@
-package com.openclassrooms.medilabofront.client.medilaboService;
+package com.openclassrooms.medilabofront.client.medilaboservice;
 
-import com.openclassrooms.medilabofront.client.medilaboService.model.Patient;
-import com.openclassrooms.medilabofront.client.medilaboService.model.PatientDto;
+import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
+import com.openclassrooms.medilabofront.client.medilaboservice.model.PatientDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(url = "http://localhost:8091/", name = "MedilaboPatient")
+@FeignClient(url = "http://localhost:8090/api", name = "MedilaboPatient")
 public interface MedilaboServiceClient {
 
     @GetMapping("/patient")

@@ -1,6 +1,6 @@
 package com.openclassrooms.medilabofront.controller;
 
-import com.openclassrooms.medilabofront.client.medilaboService.model.Patient;
+import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
 import com.openclassrooms.medilabofront.service.MedilaboFrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,21 +13,21 @@ import java.util.List;
 public class MedilaboFrontController {
 
     @Autowired
-    MedilaboFrontService frontService;
+    private MedilaboFrontService frontService;
 
     @GetMapping("/")
     public String homePage() {
-        return "homePage";
+        return "medilabo";
     }
 
-    @GetMapping("/patient/list")
+    @GetMapping("/medilabo/patient/list")
     public String patientPage(Model model) {
         List<Patient> patients = frontService.medilaboPatientFindAll();
         model.addAttribute("patients", patients);
         return "patient/list";
     }
 
-    @GetMapping("/patient/{id}")
+    @GetMapping("/medilabo/patient/{id}")
     public String getPatientDetails(@PathVariable Long id, Model model) {
         Patient patient = frontService.medilaboPatientFindById(id);
 
@@ -35,11 +35,11 @@ public class MedilaboFrontController {
         return "patient/patientFile";
     }
 
-    @PostMapping("/updatePatient")
+    @PostMapping("/medilabo/updatePatient")
     public String updatePatient(@RequestParam("id") Long patientId, @RequestParam("address") String address,
                                 @RequestParam("phoneNumber") String phoneNumber) {
         frontService.medilaboPatientUpdatePatient(patientId, address, phoneNumber);
 
-        return "redirect:/patient/" + patientId;
+        return "redirect:/medilabo/patient/" + patientId;
     }
 }

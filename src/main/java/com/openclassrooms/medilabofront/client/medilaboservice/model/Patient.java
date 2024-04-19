@@ -1,4 +1,4 @@
-package com.openclassrooms.medilabofront.client.medilaboService.model;
+package com.openclassrooms.medilabofront.client.medilaboservice.model;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -6,8 +6,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.OffsetDateTime;
 
 @Data
-public class PatientDto {
+public class Patient {
 
+
+    private Long id;
     private String firstName;
     private String lastName;
 

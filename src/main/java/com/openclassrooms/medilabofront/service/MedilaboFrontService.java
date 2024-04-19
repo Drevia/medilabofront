@@ -1,7 +1,7 @@
 package com.openclassrooms.medilabofront.service;
 
-import com.openclassrooms.medilabofront.client.medilaboService.MedilaboServiceClient;
-import com.openclassrooms.medilabofront.client.medilaboService.model.Patient;
+import com.openclassrooms.medilabofront.client.medilaboservice.MedilaboServiceClient;
+import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
 import com.openclassrooms.medilabofront.mapper.PatientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

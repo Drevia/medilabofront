@@ -1,9 +1,7 @@
-package com.openclassrooms.medilabofront.client.medilaboService.model;
+package com.openclassrooms.medilabofront.client.medilaboservice.model;
 
-import lombok.Getter;
 import lombok.ToString;
 
-@Getter
 @ToString
 public enum Gender {
 

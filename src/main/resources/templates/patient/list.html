@@ -23,7 +23,7 @@
             <td th:text="${patient.firstName}"></td>
             <td th:text="${patient.lastName}"></td>
             <td th:text="${patient.gender.getValue()}"></td>
-            <td><a th:href="@{'/patient/' + ${patient.id}}" class="btn btn-primary">Accéder au dossier</a></td>
+            <td><a th:href="@{'/medilabo/patient/' + ${patient.id}}" class="btn btn-primary">Accéder au dossier</a></td>
         </tr>
         </tbody>
     </table>
