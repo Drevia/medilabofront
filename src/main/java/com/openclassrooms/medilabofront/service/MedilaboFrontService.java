@@ -1,9 +1,10 @@
 package com.openclassrooms.medilabofront.service;
 
-import com.openclassrooms.medilabofront.client.medilaboservice.MedilaboServiceClient;
+import com.openclassrooms.medilabofront.client.medilaboservice.MedilaboGatewayClient;
 import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
 import com.openclassrooms.medilabofront.mapper.PatientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,23 +13,26 @@ import java.util.List;
 public class MedilaboFrontService {
 
     @Autowired
-    private MedilaboServiceClient client;
+    private MedilaboGatewayClient gatewayClient;
 
     @Autowired
     private PatientMapper mapper;
 
-    public List<Patient> medilaboPatientFindAll() {
-        return client.findAllPatient();
+    public List<Patient> medilaboPatientFindAll(Authentication auth) {
+
+
+
+        return gatewayClient.findAllPatient();
     }
 
     public Patient medilaboPatientFindById(Long id) {
-        return client.findPatientById(id);
+        return gatewayClient.findPatientById(id);
     }
 
     public void medilaboPatientUpdatePatient(Long patientId, String address, String phoneNumber) {
         Patient patient = medilaboPatientFindById(patientId);
         patient.setAddress(address);
         patient.setPhoneNumber(phoneNumber);
-        client.updatePatient(mapper.patientToDto(patient), patientId);
+        gatewayClient.updatePatient(mapper.patientToDto(patient), patientId);
     }
 }
