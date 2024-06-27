@@ -14,6 +14,7 @@
             <th>Prénom</th>
             <th>Nom</th>
             <th>Genre</th>
+            <th>Note</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -22,7 +23,8 @@
         <tr th:each="patient : ${patients}">
             <td th:text="${patient.firstName}"></td>
             <td th:text="${patient.lastName}"></td>
-            <td th:text="${patient.gender.getValue()}"></td>
+            <td th:text="${patient.gender != null ? patient.gender.toString() : 'null value'}"></td>
+            <td th:text="${patient.note}"></td>
             <td><a th:href="@{'/medilabo/patient/' + ${patient.id}}" class="btn btn-primary">Accéder au dossier</a></td>
         </tr>
         </tbody>

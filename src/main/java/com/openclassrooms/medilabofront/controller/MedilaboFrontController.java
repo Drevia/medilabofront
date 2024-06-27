@@ -1,6 +1,8 @@
 package com.openclassrooms.medilabofront.controller;
 
+import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNote;
 import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
+import com.openclassrooms.medilabofront.model.PatientWithNoteDto;
 import com.openclassrooms.medilabofront.service.MedilaboFrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,10 +49,12 @@ public class MedilaboFrontController {
     @GetMapping("/medilabo/patient/list")
     public String patientPage(Model model) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Patient> patients = frontService.medilaboPatientFindAll();
+        List<PatientNote> notes = frontService.medilaboPatientNoteFindAll();
 
-        List<Patient> patients = frontService.medilaboPatientFindAll(auth);
-        model.addAttribute("patients", patients);
+        List<PatientWithNoteDto> patientWithNote = frontService.buildPatientWithNote(patients, notes);
+
+        model.addAttribute("patients", patientWithNote);
         return "patient/list";
     }
 
@@ -57,7 +62,11 @@ public class MedilaboFrontController {
     public String getPatientDetails(@PathVariable Long id, Model model) {
         Patient patient = frontService.medilaboPatientFindById(id);
 
-        model.addAttribute("patient", patient);
+        List<PatientNote> notes = frontService.medilaboPatientNoteFindAllByPatientId(patient.getId().toString());
+
+        List<PatientWithNoteDto> patientWithNote = frontService.buildPatientWithNote(List.of(patient), notes);
+
+        model.addAttribute("patient", patientWithNote.get(0));
         return "patient/patientFile";
     }
 

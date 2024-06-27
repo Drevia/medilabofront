@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -13,10 +14,10 @@ import java.util.List;
 public interface MedilaboGatewayClient {
 
     @GetMapping("/patient")
-    List<Patient> findAllPatient();
+    List<Patient> findAllPatient(@RequestHeader(value = "Authorization") String header);
 
     @GetMapping("/patient/{id}")
-    Patient findPatientById(@PathVariable Long id);
+    Patient findPatientById(@RequestHeader(value = "Authorization")String header, @PathVariable Long id);
 
     @PatchMapping("/patient/{id}")
     Patient updatePatient(PatientDto patient, @PathVariable Long id);

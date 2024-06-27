@@ -17,6 +17,7 @@
     <div><strong>Genre:</strong> <span th:text="${patient.gender.getValue()}"></span></div>
     <div><strong>Adresse:</strong> <span th:text="${patient.address}"></span></div>
     <div><strong>Numéro de Téléphone:</strong> <span th:text="${patient.phoneNumber}"></span></div>
+    <div><strong>Note:</strong> <span th:text="${patient.note}"></span></div>
 
     <!-- Champs modifiables -->
     <form action="/medilabo/updatePatient" method="post">
@@ -29,6 +30,10 @@
       <div class="mb-3">
         <label for="phoneNumber" class="form-label">Numéro de Téléphone:</label>
         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${patient.phoneNumber}">
+      </div>
+      <div class="mb-3">
+        <label for="notes" class="form-label">Notes:</label>
+        <input type="text" class="form-control" id="notes" name="notes" th:value="${patient.note}">
       </div>
       <button type="submit" class="btn btn-primary">Mettre à jour</button>
     </form>

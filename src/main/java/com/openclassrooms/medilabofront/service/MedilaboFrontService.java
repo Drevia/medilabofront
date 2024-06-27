@@ -1,38 +1,76 @@
 package com.openclassrooms.medilabofront.service;
 
+import com.openclassrooms.medilabofront.client.medilabonote.MedilaboNoteGatewayClient;
+import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNote;
 import com.openclassrooms.medilabofront.client.medilaboservice.MedilaboGatewayClient;
 import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
 import com.openclassrooms.medilabofront.mapper.PatientMapper;
+import com.openclassrooms.medilabofront.model.PatientWithNoteDto;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MedilaboFrontService {
 
     @Autowired
-    private MedilaboGatewayClient gatewayClient;
+    private MedilaboGatewayClient medilaboGatewayClient;
+
+    @Autowired
+    private MedilaboNoteGatewayClient medilaboNoteGatewayClient;
 
     @Autowired
     private PatientMapper mapper;
 
-    public List<Patient> medilaboPatientFindAll(Authentication auth) {
+    public List<Patient> medilaboPatientFindAll() {
 
+        return medilaboGatewayClient.findAllPatient("Basic dXNlcjpwYXNzd29yZA==");
+    }
 
+    public List<PatientNote> medilaboPatientNoteFindAll() {
 
-        return gatewayClient.findAllPatient();
+        return medilaboNoteGatewayClient.findAllPatientNote("Basic dXNlcjpwYXNzd29yZA==");
+    }
+
+    public List<PatientNote> medilaboPatientNoteFindAllByPatientId(String id) {
+        return medilaboNoteGatewayClient.findAllPatientNoteByPatientId("Basic dXNlcjpwYXNzd29yZA==" ,id);
     }
 
     public Patient medilaboPatientFindById(Long id) {
-        return gatewayClient.findPatientById(id);
+        return medilaboGatewayClient.findPatientById("Basic dXNlcjpwYXNzd29yZA==", id);
     }
 
     public void medilaboPatientUpdatePatient(Long patientId, String address, String phoneNumber) {
         Patient patient = medilaboPatientFindById(patientId);
         patient.setAddress(address);
         patient.setPhoneNumber(phoneNumber);
-        gatewayClient.updatePatient(mapper.patientToDto(patient), patientId);
+        medilaboGatewayClient.updatePatient(mapper.patientToDto(patient), patientId);
+    }
+
+    public List<PatientWithNoteDto> buildPatientWithNote(List<Patient> patients, List<PatientNote> notes) {
+
+        return patients.stream().map(patient -> {
+            PatientWithNoteDto dto = new PatientWithNoteDto();
+            dto.setId(patient.getId());
+            dto.setFirstName(patient.getFirstName());
+            dto.setLastName(patient.getLastName());
+            dto.setBirthDate(patient.getBirthDate());
+            dto.setGender(patient.getGender());
+            dto.setAddress(patient.getAddress());
+            dto.setPhoneNumber(patient.getPhoneNumber());
+            dto.setNote(extractNoteByPatientId(patient.getId(), notes));
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    private String extractNoteByPatientId(Long id, List<PatientNote> patientNotes) {
+        List<String> notes = patientNotes.stream().filter(patientNote -> id.toString()
+                .equalsIgnoreCase(patientNote.getPatientId())).map(PatientNote::getNote)
+                .collect(Collectors.toList());
+
+        return StringUtils.join(notes, "/ ");
     }
 }
