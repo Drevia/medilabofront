@@ -1,6 +1,7 @@
 package com.openclassrooms.medilabofront.config;
 
-import feign.okhttp.OkHttpClient;
+
+import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeignConfiguration {
 
     @Bean
-    public OkHttpClient client() {
-        return new OkHttpClient();
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> requestTemplate.header("Authorization","Basic dXNlcjpwYXNzd29yZA==");
     }
 }

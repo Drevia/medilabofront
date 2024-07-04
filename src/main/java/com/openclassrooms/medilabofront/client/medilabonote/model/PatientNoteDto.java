@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PatientNote {
+public class PatientNoteDto {
 
-    private String id;
     private String patientId;
     private String patientName;
     private String note;

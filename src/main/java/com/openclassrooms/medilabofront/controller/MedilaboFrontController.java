@@ -4,17 +4,15 @@ import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNote;
 import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
 import com.openclassrooms.medilabofront.model.PatientWithNoteDto;
 import com.openclassrooms.medilabofront.service.MedilaboFrontService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MedilaboFrontController {
@@ -67,14 +65,25 @@ public class MedilaboFrontController {
         List<PatientWithNoteDto> patientWithNote = frontService.buildPatientWithNote(List.of(patient), notes);
 
         model.addAttribute("patient", patientWithNote.get(0));
+        model.addAttribute("allNotes", notes);
         return "patient/patientFile";
     }
 
     @PostMapping("/medilabo/updatePatient")
     public String updatePatient(@RequestParam("id") Long patientId, @RequestParam("address") String address,
-                                @RequestParam("phoneNumber") String phoneNumber) {
+                                @RequestParam("phoneNumber") String phoneNumber,
+                                @RequestParam(required = false)String newNote,
+                                @RequestParam List<String> notes,
+                                RedirectAttributes redirectAttributes) {
+        if (StringUtils.isNotEmpty(newNote)) {
+            frontService.addPatientNote(patientId, newNote, notes);
+        }
+
+
         frontService.medilaboPatientUpdatePatient(patientId, address, phoneNumber);
 
+        redirectAttributes.addFlashAttribute("success",
+                "Les informations du patient ont été mise à jour");
         return "redirect:/medilabo/patient/" + patientId;
     }
 }

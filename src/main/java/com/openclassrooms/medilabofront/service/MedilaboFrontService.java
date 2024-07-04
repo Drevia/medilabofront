@@ -2,6 +2,7 @@ package com.openclassrooms.medilabofront.service;
 
 import com.openclassrooms.medilabofront.client.medilabonote.MedilaboNoteGatewayClient;
 import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNote;
+import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNoteDto;
 import com.openclassrooms.medilabofront.client.medilaboservice.MedilaboGatewayClient;
 import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
 import com.openclassrooms.medilabofront.mapper.PatientMapper;
@@ -9,8 +10,10 @@ import com.openclassrooms.medilabofront.model.PatientWithNoteDto;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,20 +30,20 @@ public class MedilaboFrontService {
 
     public List<Patient> medilaboPatientFindAll() {
 
-        return medilaboGatewayClient.findAllPatient("Basic dXNlcjpwYXNzd29yZA==");
+        return medilaboGatewayClient.findAllPatient();
     }
 
     public List<PatientNote> medilaboPatientNoteFindAll() {
 
-        return medilaboNoteGatewayClient.findAllPatientNote("Basic dXNlcjpwYXNzd29yZA==");
+        return medilaboNoteGatewayClient.findAllPatientNote();
     }
 
     public List<PatientNote> medilaboPatientNoteFindAllByPatientId(String id) {
-        return medilaboNoteGatewayClient.findAllPatientNoteByPatientId("Basic dXNlcjpwYXNzd29yZA==" ,id);
+        return medilaboNoteGatewayClient.findAllPatientNoteByPatientId(id);
     }
 
     public Patient medilaboPatientFindById(Long id) {
-        return medilaboGatewayClient.findPatientById("Basic dXNlcjpwYXNzd29yZA==", id);
+        return medilaboGatewayClient.findPatientById(id);
     }
 
     public void medilaboPatientUpdatePatient(Long patientId, String address, String phoneNumber) {
@@ -67,10 +70,22 @@ public class MedilaboFrontService {
     }
 
     private String extractNoteByPatientId(Long id, List<PatientNote> patientNotes) {
-        List<String> notes = patientNotes.stream().filter(patientNote -> id.toString()
-                .equalsIgnoreCase(patientNote.getPatientId())).map(PatientNote::getNote)
-                .collect(Collectors.toList());
 
-        return StringUtils.join(notes, "/ ");
+        if (CollectionUtils.isEmpty(patientNotes)){
+            return StringUtils.EMPTY;
+        } else{
+            return patientNotes.stream().filter(patientNote -> id.toString()
+                            .equalsIgnoreCase(patientNote.getPatientId())).map(PatientNote::getNote)
+                    .collect(Collectors.joining(" / "));
+        }
+    }
+
+    public void addPatientNote(Long patientId, String newNote, List<String> notes) {
+        PatientNoteDto patientNote = new PatientNoteDto();
+        patientNote.setNote(newNote);
+        patientNote.setPatientId(patientId.toString());
+        patientNote.setPatientName(medilaboGatewayClient.findPatientById(patientId).getLastName());
+
+        medilaboNoteGatewayClient.createPatientNote(patientNote);
     }
 }

@@ -21,7 +21,7 @@
 
     <!-- Champs modifiables -->
     <form action="/medilabo/updatePatient" method="post">
-      <input type="hidden" name="_method" value="PATCH">
+      <input type="hidden" name="_method" value="post">
       <input type="hidden" name="id" th:value="${patient.id}">
       <div class="mb-3">
         <label for="address" class="form-label">Adresse:</label>
@@ -33,7 +33,18 @@
       </div>
       <div class="mb-3">
         <label for="notes" class="form-label">Notes:</label>
-        <input type="text" class="form-control" id="notes" name="notes" th:value="${patient.note}">
+        <div th:each="note : ${allNotes}">
+          <input type="text"
+                 class="form-control mb-2"
+                 id="notes"
+                 name="notes"
+                 th:value="${note.getNote()}">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="newNote" class="form-label">Ajouter une nouvelle note:</label>
+        <input type="text" class="form-control" id="newNote" name="newNote">
       </div>
       <button type="submit" class="btn btn-primary">Mettre à jour</button>
     </form>
