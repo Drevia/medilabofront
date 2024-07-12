@@ -18,4 +18,5 @@ public class PatientWithNoteDto {
     private String address;
     private String phoneNumber;
     private String note;
+    private String dangerResult;
 }

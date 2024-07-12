@@ -64,8 +64,11 @@ public class MedilaboFrontController {
 
         List<PatientWithNoteDto> patientWithNote = frontService.buildPatientWithNote(List.of(patient), notes);
 
+        String dangerResult = frontService.getDangerResult(id.toString());
+
         model.addAttribute("patient", patientWithNote.get(0));
         model.addAttribute("allNotes", notes);
+        model.addAttribute("result", dangerResult);
         return "patient/patientFile";
     }
 
@@ -73,10 +76,9 @@ public class MedilaboFrontController {
     public String updatePatient(@RequestParam("id") Long patientId, @RequestParam("address") String address,
                                 @RequestParam("phoneNumber") String phoneNumber,
                                 @RequestParam(required = false)String newNote,
-                                @RequestParam List<String> notes,
                                 RedirectAttributes redirectAttributes) {
         if (StringUtils.isNotEmpty(newNote)) {
-            frontService.addPatientNote(patientId, newNote, notes);
+            frontService.addPatientNote(patientId, newNote);
         }
 
 

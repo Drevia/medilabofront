@@ -1,5 +1,6 @@
 package com.openclassrooms.medilabofront.service;
 
+import com.openclassrooms.medilabofront.client.medilaboResult.MedilaboResultClient;
 import com.openclassrooms.medilabofront.client.medilabonote.MedilaboNoteGatewayClient;
 import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNote;
 import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNoteDto;
@@ -24,6 +25,9 @@ public class MedilaboFrontService {
 
     @Autowired
     private MedilaboNoteGatewayClient medilaboNoteGatewayClient;
+
+    @Autowired
+    private MedilaboResultClient medilaboResultClient;
 
     @Autowired
     private PatientMapper mapper;
@@ -80,12 +84,16 @@ public class MedilaboFrontService {
         }
     }
 
-    public void addPatientNote(Long patientId, String newNote, List<String> notes) {
+    public void addPatientNote(Long patientId, String newNote) {
         PatientNoteDto patientNote = new PatientNoteDto();
         patientNote.setNote(newNote);
         patientNote.setPatientId(patientId.toString());
         patientNote.setPatientName(medilaboGatewayClient.findPatientById(patientId).getLastName());
 
         medilaboNoteGatewayClient.createPatientNote(patientNote);
+    }
+
+    public String getDangerResult(String id) {
+        return medilaboResultClient.getMedilaboResult(id);
     }
 }
