@@ -8,11 +8,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class MedilaboFrontController {
@@ -22,22 +24,8 @@ public class MedilaboFrontController {
 
     @GetMapping("/login")
     public String homePage() {
-        System.out.println("-----------> login page");
         return "login";
     }
-
-    /*@PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model,
-                        RedirectAttributes redirectAttributes) {
-        System.out.println("-------> go to medilabo");
-        Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
-
-        //TODO: appel pour valider la connection et générer le token en utilisant la var auth
-        String token = "todo";
-        redirectAttributes.addAttribute("token", token);
-
-        return "redirect:/medilabo";
-    }*/
 
     @GetMapping("/medilabo")
     public String showMedilaboPage() {

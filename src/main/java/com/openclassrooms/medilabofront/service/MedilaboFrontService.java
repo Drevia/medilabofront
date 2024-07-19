@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,7 +69,7 @@ public class MedilaboFrontService {
             dto.setPhoneNumber(patient.getPhoneNumber());
             dto.setNote(extractNoteByPatientId(patient.getId(), notes));
             return dto;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     private String extractNoteByPatientId(Long id, List<PatientNote> patientNotes) {
