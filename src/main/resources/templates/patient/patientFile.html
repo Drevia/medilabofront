@@ -20,13 +20,22 @@
     <div><strong>Notes:</strong></div>
     <div th:each="note : ${allNotes}">
       <div class="mb-2">
-        <span id="notes" th:text="${note.getNote()}"></span>
+        <input type="text"
+               class="form-control mb-2"
+               id="notes" th:value="${note.getNote()}">
+        <a th:href="@{'/medilabo/deleteNote/' + ${note.id} + '?patientId=' + ${patient.id}}">
+          <!--<input type="hidden" name="patientFull" th:value="${patient}">-->
+          <button type="submit" class="btn btn-danger" id="noteButton">
+            Supprimer
+          </button>
+        </a>
       </div>
+
     </div>
 
     <!-- Champs modifiables -->
-    <form action="/medilabo/updatePatient" method="post">
-      <input type="hidden" name="_method" value="PATCH">
+    <form th:action="@{/medilabo/updatePatient}" method="post">
+      <!--<input type="hidden" name="_method" value="PATCH">-->
       <input type="hidden" name="id" th:value="${patient.id}">
       <div class="mb-3">
         <label for="address" class="form-label">Adresse:</label>

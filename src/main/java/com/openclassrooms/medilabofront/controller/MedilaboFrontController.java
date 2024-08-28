@@ -76,4 +76,16 @@ public class MedilaboFrontController {
                 "Les informations du patient ont été mise à jour");
         return "redirect:/medilabo/patient/" + patientId;
     }
+
+    @GetMapping("/medilabo/deleteNote/{id}")
+    public String deleteNote(@PathVariable("id") String patientNoteId,
+                             RedirectAttributes redirectAttributes,
+                             @RequestParam("patientId") String patientId) {
+
+        frontService.deleteNote(patientNoteId);
+
+        /*redirectAttributes.addFlashAttribute("success",
+                "Les informations du patient ont été mise à jour");*/
+        return "redirect:/medilabo/patient/" + patientId;
+    }
 }

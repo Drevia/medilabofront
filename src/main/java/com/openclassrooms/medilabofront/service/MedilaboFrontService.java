@@ -72,6 +72,14 @@ public class MedilaboFrontService {
         }).toList();
     }
 
+    public void deleteNote(String noteId) {
+        medilaboNoteGatewayClient.deletePatientNote(noteId);
+    }
+
+    public String findPatientIdByPatientNoteId(String patientNoteId) {
+        return medilaboNoteGatewayClient.getPatientIdByPatientNoteId(patientNoteId);
+    }
+
     private String extractNoteByPatientId(Long id, List<PatientNote> patientNotes) {
 
         if (CollectionUtils.isEmpty(patientNotes)){
