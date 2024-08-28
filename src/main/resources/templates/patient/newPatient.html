@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un Patient</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Créer un Nouveau Patient</h1>
+    <form th:action="@{/medilabo/patient/create}" th:object="${patient}" method="post" class="needs-validation">
+        <!-- Prénom -->
+        <div class="mb-3">
+            <label for="firstName" class="form-label">Prénom</label>
+            <input type="text" class="form-control" th:field="*{firstName}" id="firstName" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Champ non valide</div>
+        </div>
+        <!-- Nom -->
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Nom</label>
+            <input type="text" class="form-control" th:field="*{lastName}" id="lastName" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Champ non valide</div>
+        </div>
+        <!-- Date de Naissance -->
+        <div class="mb-3">
+            <label for="birthDate" class="form-label">Date de Naissance</label>
+            <input type="date" class="form-control" th:field="*{birthDate}" id="birthDate" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">Champ non valide</div>
+        </div>
+        <!-- Genre -->
+        <div class="mb-3">
+            <label for="gender" class="form-label">Genre</label>
+            <select class="form-control" th:field="*{gender}" id="gender" required>
+                <option value="">Sélectionnez le genre</option>
+                <option th:value="MALE" th:text="${T(com.openclassrooms.medilabofront.client.medilaboservice.model.Gender).MALE.getValue()}"></option>
+                <option th:value="FEMALE" th:text="${T(com.openclassrooms.medilabofront.client.medilaboservice.model.Gender).FEMALE.getValue()}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Champ non valide</div>
+        </div>
+        <!-- Adresse -->
+        <div class="mb-3">
+            <label for="address" class="form-label">Adresse</label>
+            <input type="text" class="form-control" th:field="*{address}" id="address" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Champ non valide</div>
+        </div>
+        <!-- Numéro de Téléphone -->
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Numéro de Téléphone</label>
+            <input type="text" class="form-control" th:field="*{phoneNumber}" id="phoneNumber" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Champ non valide</div>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button type="submit" class="btn btn-primary">Créer Patient</button>
+    </form>
+    <!-- Bouton pour revenir à la liste des patients -->
+    <a href="/medilabo/patient/list" class="btn btn-secondary mt-3">Retour à la liste des patients</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -6,6 +6,7 @@ import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNote;
 import com.openclassrooms.medilabofront.client.medilabonote.model.PatientNoteDto;
 import com.openclassrooms.medilabofront.client.medilaboservice.MedilaboGatewayClient;
 import com.openclassrooms.medilabofront.client.medilaboservice.model.Patient;
+import com.openclassrooms.medilabofront.client.medilaboservice.model.PatientDto;
 import com.openclassrooms.medilabofront.mapper.PatientMapper;
 import com.openclassrooms.medilabofront.model.PatientWithNoteDto;
 import org.apache.commons.lang.StringUtils;
@@ -102,5 +103,9 @@ public class MedilaboFrontService {
 
     public String getDangerResult(String id) {
         return medilaboResultClient.getMedilaboResult(id);
+    }
+
+    public void createPatient(PatientDto patientDto) {
+        medilaboGatewayClient.createPatient(patientDto);
     }
 }
