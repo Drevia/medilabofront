@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-@FeignClient(url = "http://localhost:8090/api", name = "MedilaboPatient", configuration = FeignConfiguration.class)
+@FeignClient(url = "http://medilabo-gateway:8090/api", name = "MedilaboPatient", configuration = FeignConfiguration.class)
 public interface MedilaboGatewayClient {
 
     @GetMapping("/patient")
